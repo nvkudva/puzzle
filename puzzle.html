@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript"></script>	
+	<script src="http://puzzle.multunus.com/assets/jquery.tagcloud-e1b5a8123cbd251e02f8d16cab4b2915.min></script>	
+	<style type="text/css">
+
+	</style>
+	<script>
+	var counts =new Array();
+	TFinder = {
+	user: 'vijay',
+	calculate: function() {
+		$.ajax({
+			url: 'http://api.twitter.com/1/statuses/user_timeline.json/',
+			type: 'GET',
+			dataType: 'jsonp',
+			data: {screen_name: TFinder.user},
+			success: function(data, textStatus, xhr) {
+				for (var i = 0; i < data.length; i++) {
+				 	wordCount=data[i].text.split(' ').length;
+				 	//console.log ("Tweet"+i+ ":"+ wordCount);
+				 	counts[wordCount] = counts[wordCount]==undefined? 1:counts[wordCount]+1;
+				}
+				for(i=0;i<counts.length;i++){
+					if(counts[i]!=undefined){
+						console.log(i+"-"+counts[i]);		
+						//$("#dataCloud").append("<li value='"+counts[i]+"''>"+ i+"</li>")
+					}
+				}		
+			}	
+		});		
+	}, 
+};
+
+$(document).ready(function () {
+	TFinder.calculate();
+	
+	
+});
+
+	</script
+</head>
+<body>
+	Tweet Counts
+	<ul id="dataCloud" style="list-style: none; margin: 0px; padding: 0px; position: relative;">
+	</ul>
+</body>
+</html>
